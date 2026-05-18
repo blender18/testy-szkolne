@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <title>Quiz - Wesele: Bohaterowie</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                background-color: #1f1f1f;
+                width: 100vw;
+                min-height: 100vh;
+                font-family: "Google Sans", sans-serif;
+                overflow-x: hidden;
+            }
+            header {
+                width: 100vw;
+                height: 15vh;
+                min-height: 60px;
+            }
+            .header-section {
+                background-color: #2b2b2b;
+                width: 70%;
+                height: 80%;
+                margin: 0 auto;
+                border-radius: 0 0 25px 25px;
+            }
+            .header-subsection {
+                width: auto;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding-left: 50px;
+            }
+            .header-subsection a {
+                text-decoration: none;
+                color: gray;
+                padding: 5px;
+                border-radius: 4px;
+            }
+            .header-subsection a:hover {
+                background-color: #3d3d3d;
+            }
+            .quiz-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                padding: 40px 20px 60px;
+            }
+            .quiz-box {
+                background-color: #2b2b2b;
+                width: 100%;
+                max-width: 860px;
+                border-radius: 12px;
+                padding: 28px 36px 24px;
+                display: flex;
+                flex-direction: column;
+                min-height: 480px;
+            }
+            .quiz-title {
+                color: #c4c4c4;
+                font-size: 0.85rem;
+                font-weight: 500;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+            .progress-bar-bg {
+                width: 100%;
+                height: 6px;
+                background-color: #1f1f1f;
+                border-radius: 99px;
+                overflow: hidden;
+                margin-bottom: 16px;
+            }
+            .progress-bar-fill {
+                height: 100%;
+                background-color: #888;
+                border-radius: 99px;
+                transition: width 0.4s ease;
+            }
+            .question-number {
+                text-align: center;
+                color: #555;
+                font-size: 0.82rem;
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+            .question-text {
+                text-align: center;
+                color: #c4c4c4;
+                font-size: 0.97rem;
+                line-height: 1.5;
+                margin-bottom: 20px;
+                min-height: 44px;
+            }
+            .answers {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                flex: 1;
+                margin-bottom: 16px;
+            }
+            .answer-btn {
+                display: flex;
+                align-items: stretch;
+                background-color: #272727;
+                border: 1px solid #333;
+                border-radius: 6px;
+                cursor: pointer;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.88rem;
+                color: #c4c4c4;
+                padding: 0;
+                width: 100%;
+                transition: background-color 0.15s;
+                overflow: hidden;
+            }
+            .answer-btn:hover:not(:disabled) {
+                background-color: #333;
+            }
+            .answer-btn:disabled {
+                cursor: default;
+            }
+            .answer-label {
+                background-color: #222;
+                color: #666;
+                font-weight: 600;
+                font-size: 0.82rem;
+                padding: 10px 14px;
+                border-right: 1px solid #333;
+                min-width: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .answer-text {
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                text-align: left;
+            }
+            .answer-btn.correct {
+                background-color: #1a3a1a;
+                border-color: #2d6a2d;
+            }
+            .answer-btn.correct .answer-label {
+                background-color: #1e421e;
+                color: #5aad5a;
+                border-right-color: #2d6a2d;
+            }
+            .answer-btn.correct .answer-text {
+                color: #7dd67d;
+            }
+            .answer-btn.wrong {
+                background-color: #3a1a1a;
+                border-color: #6a2d2d;
+            }
+            .answer-btn.wrong .answer-label {
+                background-color: #421e1e;
+                color: #ad5a5a;
+                border-right-color: #6a2d2d;
+            }
+            .answer-btn.wrong .answer-text {
+                color: #d67d7d;
+            }
+            .quiz-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .btn-end {
+                background: none;
+                border: 1px solid #444;
+                color: #666;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.8rem;
+                padding: 6px 14px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .btn-end:hover {
+                background-color: #333;
+                color: #999;
+            }
+            .score-display {
+                color: #444;
+                font-size: 0.78rem;
+            }
+            .stat {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+            }
+            .stat-val {
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+            .stat-lbl {
+                font-size: 0.72rem;
+                color: #555;
+            }
+            .btn-result {
+                background-color: #333;
+                border: 1px solid #444;
+                color: #c4c4c4;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.85rem;
+                padding: 9px 22px;
+                border-radius: 6px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+            }
+            .btn-result:hover {
+                background-color: #3d3d3d;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <section class="header-section">
+                <div class="header-subsection">
+                    <a href="index.html">Szkola Quizy</a>
+                    <a href="">Egzaminy Praktyczne</a>
+                    <a href="">Egzaminy Teoretyczne</a>
+                </div>
+            </section>
+        </header>
+        <div class="quiz-wrapper">
+            <div class="quiz-box">
+                <div
+                    id="quizView"
+                    style="display: flex; flex-direction: column; flex: 1"
+                >
+                    <div class="quiz-title">Wesele &#8211; Bohaterowie</div>
+                    <div class="progress-bar-bg">
+                        <div
+                            class="progress-bar-fill"
+                            id="progressFill"
+                            style="width: 0%"
+                        ></div>
+                    </div>
+                    <div class="question-number" id="questionNumber">
+                        1 / 30
+                    </div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="answers" id="answersContainer"></div>
+                    <div class="quiz-bottom">
+                        <button class="btn-end" id="btnEnd">Zakoncz</button>
+                        <div class="score-display" id="scoreDisplay">
+                            0% poprawnych
+                        </div>
+                    </div>
+                </div>
+                <div
+                    id="resultsView"
+                    style="
+                        display: none;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        flex: 1;
+                        text-align: center;
+                        gap: 10px;
+                    "
+                >
+                    <div
+                        style="
+                            color: #c4c4c4;
+                            font-size: 2.8rem;
+                            font-weight: 700;
+                        "
+                        id="resultPct"
+                    >
+                        0%
+                    </div>
+                    <div
+                        style="
+                            color: #666;
+                            font-size: 0.85rem;
+                            margin-bottom: 8px;
+                        "
+                    >
+                        poprawnych odpowiedzi
+                    </div>
+                    <div style="display: flex; gap: 32px; margin: 8px 0 16px">
+                        <div class="stat">
+                            <span
+                                class="stat-val"
+                                style="color: #5aad5a"
+                                id="rCorrect"
+                                >0</span
+                            ><span class="stat-lbl">poprawne</span>
+                        </div>
+                        <div class="stat">
+                            <span
+                                class="stat-val"
+                                style="color: #ad5a5a"
+                                id="rWrong"
+                                >0</span
+                            ><span class="stat-lbl">niepoprawne</span>
+                        </div>
+                        <div class="stat" id="skipStat">
+                            <span
+                                class="stat-val"
+                                style="color: #555"
+                                id="rSkip"
+                                >0</span
+                            ><span class="stat-lbl">niezaznaczone</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px">
+                        <a href="index.html" class="btn-result"
+                            >Wróc do glównej</a
+                        >
+                        <button class="btn-result" onclick="location.reload()">
+                            Powtórz quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var Q = [
+                {
+                    q: "Kto jest autorem dramatu Wesele?",
+                    a: [
+                        "Stanislaw Wyspianski",
+                        "Boleslaw Prus",
+                        "Stefan Zeromski",
+                        "Adam Mickiewicz",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Pan Mlody wzorowany byl na prawdziwym poscie. Kim byl w rzeczywistosci?",
+                    a: [
+                        "Kazimierzem Przerwa-Tetmajerem",
+                        "Lucjanem Rydlem",
+                        "Janem Kasprowiczem",
+                        "Stanislawem Przybyszewskim",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "W czyim domu odbywa sie tytulowe wesele?",
+                    a: [
+                        "W domu Pana Mlodego",
+                        "W bronowickiej chacie Tetmajerow",
+                        "W chacie Czepca",
+                        "W dworze Radczyni",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Gospodarz Wlodzimierz Tetmajer byl z zawodu:",
+                    a: [
+                        "Rolnikiem",
+                        "Malarzem i poeta",
+                        "Adwokatem",
+                        "Nauczycielem",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Gospodyni zona Gospodarza jest siostra:",
+                    a: ["Racheli", "Panny Mlodej", "Maryny", "Zosi"],
+                    c: 1,
+                },
+                {
+                    q: "Czepiec wyr\u00f3znia sie przede wszystkim:",
+                    a: [
+                        "Biernosc\u00eda i melancholia",
+                        "Zajeciem politycznym i checia walki",
+                        "Poboznosc\u00eda i pokora",
+                        "Zamilowaniem do poezji",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Stanczykjako duch historyczny symbolizuje:",
+                    a: [
+                        "Narodowy zryw i walke",
+                        "Blazenade ironie i madrosc polityczna",
+                        "Chlopski bunt",
+                        "Romantyczna milosc",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Stanczykukazuje sie jako wyrzut sumienia:",
+                    a: ["Gospodarzowi", "Poecie", "Dziennikarzowi", "Radczyni"],
+                    c: 2,
+                },
+                {
+                    q: "Dziennikarz wzorowany byl na prawdziwej osobie. Kim byl w rzeczywistosci?",
+                    a: [
+                        "Rudolfem Starzewskim",
+                        "Adamem Chmielowskim",
+                        "Tadeuszem Boyem-Zelenskim",
+                        "J\u00f3zefem Kotarbinskim",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Rycerz Czarny Zawisza Czarny ukazuje sie:",
+                    a: ["Gospodarzowi", "Poecie", "Panu Mlodemu", "Radczyni"],
+                    c: 1,
+                },
+                {
+                    q: "Hetman duch symbolizuje:",
+                    a: [
+                        "Bohatera narodowego",
+                        "Zdrajce i targowiczanina",
+                        "Rycerza bez skazy",
+                        "Kr\u00f3la Polski",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jakub Szela byl postacia historyczna. Czym zaslyna\u0142?",
+                    a: [
+                        "Zwycieska bitwa pod Rac\u0142awicami",
+                        "Przyw\u00f3dca rabacji galicyjskiej 1846 roku",
+                        "Zalozicielem stronnictwa chlopskiego",
+                        "Poeta ludowym",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Upi\u00f3r Szeli ukazuje sie:",
+                    a: [
+                        "Dziennikarzowi",
+                        "Panu Mlodemu",
+                        "Ojcu Maciejowi Tetmajerowi",
+                        "Czepce",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Rachela zaprasza na wesele:",
+                    a: [
+                        "Chochola i duchy",
+                        "Rycerzy z obraz\u00f3w",
+                        "Sasiad\u00f3w ze wsi",
+                        "Chlop\u00f3w z okolicy",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Chochol symbolizuje:",
+                    a: [
+                        "Odrodzenie narodowe i nadzieje",
+                        "Uspienie marazm i niemoc narodu",
+                        "Milosc romantyczna",
+                        "Sile chlopska",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Zloty R\u00f6g powierzony Jaszkowi symbolizuje:",
+                    a: [
+                        "Bogactwo materialne",
+                        "Sygnal do narodowego powstania",
+                        "Muzyke weselna",
+                        "Tradycje szlachecka",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jaszko zgubil Zloty R\u00f6g bo:",
+                    a: [
+                        "Zasnal ze zmeczenia",
+                        "Schylil sie po czapke z pawim pi\u00f3rem",
+                        "Ukradl go Czepiec",
+                        "Wyrzucil go do studni",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Wernyhora przynosi Gospodarzowi:",
+                    a: [
+                        "Zloty miecz",
+                        "Zloty R\u00f6g jako znak do powstania",
+                        "Ksiege przepowiedni",
+                        "Chor\u0105giew narodowa",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Poeta w dramacie reprezentuje postawe:",
+                    a: [
+                        "Walecznego patrioty",
+                        "Dekadenta i estety uciekajacego od rzeczywistosci",
+                        "Przyw\u00f3dcy chlop\u00f3w",
+                        "Pozytywistycznego spolecznika",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Poeta wzorowany byl na prawdziwej osobie. Kim byl?",
+                    a: [
+                        "Lucjanem Rydlem",
+                        "Kazimierzem Przerwa-Tetmajerem",
+                        "Janem Kasprowiczem",
+                        "Stanislawem Wyspianskim",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Radczyni reprezentuje postawe:",
+                    a: [
+                        "Entuzjazmu wobec malzenstw miedzy stanami",
+                        "Konserwatywnej inteligencji gardzacej chlopstwem",
+                        "Chlopskiej madrosci",
+                        "Rewolucyjnego radykalizmu",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "W finale dramatu goscie weselni tancza chocholi taniec. To symbol:",
+                    a: [
+                        "Radosci i swietowania",
+                        "Zbiorowego uspienia i niemocy",
+                        "Przygotowania do bitwy",
+                        "Holdu dla tradycji ludowej",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Wesele zostalo po raz pierwszy wystawione w:",
+                    a: [
+                        "Warszawie 1901",
+                        "Krakowie 1901",
+                        "Lwowie 1900",
+                        "Poznaniu 1902",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Prawdziwe wesele na kt\u00f3rym oparty jest dramat odbylao sie w roku:",
+                    a: ["1895", "1898", "1900", "1903"],
+                    c: 2,
+                },
+                {
+                    q: "Klimina charakteryzuje sie:",
+                    a: [
+                        "Madroscia i spokojem",
+                        "Gadatliwoscia i przyziemnosc\u00eda",
+                        "Walecznosc\u00eda i patriotyzmem",
+                        "Poetyckim natchnieniem",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Slynne Mia\u0142es chamie zloty r\u00f6g wypowiada:",
+                    a: ["Gospodarz", "Chochol", "Dziennikarz", "Poeta"],
+                    c: 1,
+                },
+                {
+                    q: "Dramat dziely sie na:",
+                    a: [
+                        "Dwa akty",
+                        "Trzy akty",
+                        "Cztery akty",
+                        "Piec akt\u00f3w",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Motyw chlopomanii w dramacie symbolizuje:",
+                    a: [
+                        "Rewolucje przemyslowa",
+                        "Idealizowanie wsi przez inteligencje przy realnej przepasci miedzy stanami",
+                        "Sojusz inteligencji z chlopstwem",
+                        "Powr\u00f3t do tradycji szlacheckiej",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Hetman ukazuje sie jako wyrzut sumienia:",
+                    a: [
+                        "Gospodarzowi",
+                        "Panu Mlodemu",
+                        "Dziennikarzowi",
+                        "Czepce",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Maryna flirtuje na weselu z:",
+                    a: [
+                        "Gospodarzem",
+                        "Poeta Kazimierzem Tetmajerem",
+                        "Dziennikarzem",
+                        "Panem Mlodym",
+                    ],
+                    c: 1,
+                },
+            ];
+
+            var current = 0,
+                correct = 0,
+                wrong = 0,
+                answered = 0,
+                locked = false,
+                total = Q.length;
+            var LABELS = ["A", "B", "C", "D"];
+
+            function shuffle(arr) {
+                var a = arr.slice();
+                for (var i = a.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var t = a[i];
+                    a[i] = a[j];
+                    a[j] = t;
+                }
+                return a;
+            }
+
+            var questions = shuffle(Q);
+
+            function updateScore() {
+                var pct =
+                    answered === 0 ? 0 : Math.round((correct / answered) * 100);
+                document.getElementById("scoreDisplay").textContent =
+                    pct + "% poprawnych";
+            }
+
+            function renderQuestion() {
+                locked = false;
+                var q = questions[current];
+                document.getElementById("questionNumber").textContent =
+                    current + 1 + " / " + total;
+                document.getElementById("questionText").textContent = q.q;
+                document.getElementById("progressFill").style.width =
+                    (current / total) * 100 + "%";
+                var container = document.getElementById("answersContainer");
+                container.innerHTML = "";
+                var order = shuffle([0, 1, 2, 3]);
+                var correctDisplay = 0;
+                for (var i = 0; i < 4; i++) {
+                    if (order[i] === q.c) {
+                        correctDisplay = i;
+                        break;
+                    }
+                }
+                for (var pos = 0; pos < 4; pos++) {
+                    var orig = order[pos];
+                    var btn = document.createElement("button");
+                    btn.className = "answer-btn";
+                    btn.dataset.pos = pos;
+                    btn.dataset.correct = correctDisplay;
+                    var lbl = document.createElement("span");
+                    lbl.className = "answer-label";
+                    lbl.textContent = LABELS[pos];
+                    var txt = document.createElement("span");
+                    txt.className = "answer-text";
+                    txt.textContent = q.a[orig];
+                    btn.appendChild(lbl);
+                    btn.appendChild(txt);
+                    btn.addEventListener("click", handleAnswer);
+                    container.appendChild(btn);
+                }
+                updateScore();
+            }
+
+            function handleAnswer(e) {
+                if (locked) return;
+                locked = true;
+                answered++;
+                var btn = e.currentTarget;
+                var chosen = parseInt(btn.dataset.pos);
+                var correctPos = parseInt(btn.dataset.correct);
+                var btns = document
+                    .getElementById("answersContainer")
+                    .querySelectorAll(".answer-btn");
+                if (chosen === correctPos) {
+                    correct++;
+                    btns[chosen].classList.add("correct");
+                } else {
+                    wrong++;
+                    btns[chosen].classList.add("wrong");
+                    btns[correctPos].classList.add("correct");
+                }
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                }
+                updateScore();
+                setTimeout(function () {
+                    current++;
+                    if (current >= total) {
+                        showResults(false);
+                    } else {
+                        renderQuestion();
+                    }
+                }, 1500);
+            }
+
+            function showResults(early) {
+                document.getElementById("progressFill").style.width = "100%";
+                document.getElementById("quizView").style.display = "none";
+                var rv = document.getElementById("resultsView");
+                rv.style.display = "flex";
+                var skipped = early ? total - answered : 0;
+                var base = early ? total : answered;
+                var pct = base === 0 ? 0 : Math.round((correct / base) * 100);
+                document.getElementById("resultPct").textContent = pct + "%";
+                document.getElementById("rCorrect").textContent = correct;
+                document.getElementById("rWrong").textContent = wrong;
+                document.getElementById("rSkip").textContent = skipped;
+                if (!early) {
+                    document.getElementById("skipStat").style.display = "none";
+                }
+            }
+
+            document
+                .getElementById("btnEnd")
+                .addEventListener("click", function () {
+                    showResults(true);
+                });
+            renderQuestion();
+        </script>
+    </body>
+</html>
