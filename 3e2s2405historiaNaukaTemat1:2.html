@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Nauka - Historia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style_nauka.css">
+</head>
+<body>
+
+<header>
+    <section class="header-section">
+        <div class="header-subsection">
+            <a href="index.html">Szkoła Quizy</a>
+            <a href="">Egzaminy Praktyczne</a>
+            <a href="">Egzaminy Teoretyczne</a>
+        </div>
+    </section>
+</header>
+
+<div class="quiz-wrapper">
+    <div class="quiz-box">
+
+        <div class="quiz-title">
+            Historia – Nauka
+        </div>
+
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <div class="question-number" id="questionNumber"></div>
+
+        <div class="question-text" id="questionText"></div>
+
+        <div class="answer-static" id="answerText"></div>
+
+        <div class="quiz-bottom">
+            <button class="btn" id="prevBtn">Poprzednie</button>
+
+            <button class="btn" id="nextBtn">Następne</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const Q = [
+    {
+        q: "Kiedy podpisano traktat wersalski?",
+        a: "28 czerwca 1919 r."
+    },
+    {
+        q: "Kiedy powstał ZSRS?",
+        a: "ZSRS utworzono oficjalnie w 1922 roku."
+    }
+];
+
+let current = 0;
+
+function render() {
+    const q = Q[current];
+
+    document.getElementById("questionNumber").textContent =
+        `${current + 1} / ${Q.length}`;
+
+    document.getElementById("questionText").textContent = q.q;
+
+    document.getElementById("answerText").textContent = q.a;
+
+    document.getElementById("progressFill").style.width =
+        ((current + 1) / Q.length) * 100 + "%";
+}
+
+document.getElementById("nextBtn").onclick = () => {
+    if (current < Q.length - 1) {
+        current++;
+        render();
+    }
+};
+
+document.getElementById("prevBtn").onclick = () => {
+    if (current > 0) {
+        current--;
+        render();
+    }
+};
+
+render();
+</script>
+
+</body>
+</html>
