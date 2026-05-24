@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <title>Quiz - Historia: Ład Wersalski i ZSRS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html,
+            body {
+                background-color: #1f1f1f;
+                width: 100vw;
+                min-height: 100vh;
+                font-family: "Google Sans", sans-serif;
+                overflow-x: hidden;
+            }
+            header {
+                width: 100vw;
+                height: 15vh;
+                min-height: 60px;
+            }
+            .header-section {
+                background-color: #2b2b2b;
+                width: 70%;
+                height: 80%;
+                margin: 0 auto;
+                border-radius: 0 0 25px 25px;
+            }
+            .header-subsection {
+                width: auto;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding-left: 50px;
+            }
+            .header-subsection a {
+                text-decoration: none;
+                color: gray;
+                padding: 5px;
+                border-radius: 4px;
+            }
+            .header-subsection a:hover {
+                background-color: #3d3d3d;
+            }
+            .quiz-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                padding: 40px 20px 60px;
+            }
+            .quiz-box {
+                background-color: #2b2b2b;
+                width: 100%;
+                max-width: 860px;
+                border-radius: 12px;
+                padding: 28px 36px 24px;
+                display: flex;
+                flex-direction: column;
+                min-height: 480px;
+            }
+            .quiz-title {
+                color: #c4c4c4;
+                font-size: 0.85rem;
+                font-weight: 500;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+            .progress-bar-bg {
+                width: 100%;
+                height: 6px;
+                background-color: #1f1f1f;
+                border-radius: 99px;
+                overflow: hidden;
+                margin-bottom: 16px;
+            }
+            .progress-bar-fill {
+                height: 100%;
+                background-color: #888;
+                border-radius: 99px;
+                transition: width 0.4s ease;
+            }
+            .question-number {
+                text-align: center;
+                color: #555;
+                font-size: 0.82rem;
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+            .question-text {
+                text-align: center;
+                color: #c4c4c4;
+                font-size: 0.97rem;
+                line-height: 1.5;
+                margin-bottom: 20px;
+                min-height: 44px;
+            }
+            .answers {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                flex: 1;
+                margin-bottom: 16px;
+            }
+            .answer-btn {
+                display: flex;
+                align-items: stretch;
+                background-color: #272727;
+                border: 1px solid #333;
+                border-radius: 6px;
+                cursor: pointer;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.88rem;
+                color: #c4c4c4;
+                padding: 0;
+                width: 100%;
+                transition: background-color 0.15s;
+                overflow: hidden;
+            }
+            .answer-btn:hover:not(:disabled) {
+                background-color: #333;
+            }
+            .answer-btn:disabled {
+                cursor: default;
+            }
+            .answer-label {
+                background-color: #222;
+                color: #666;
+                font-weight: 600;
+                font-size: 0.82rem;
+                padding: 10px 14px;
+                border-right: 1px solid #333;
+                min-width: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .answer-text {
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                text-align: left;
+            }
+            .answer-btn.correct {
+                background-color: #1a3a1a;
+                border-color: #2d6a2d;
+            }
+            .answer-btn.correct .answer-label {
+                background-color: #1e421e;
+                color: #5aad5a;
+                border-right-color: #2d6a2d;
+            }
+            .answer-btn.correct .answer-text {
+                color: #7dd67d;
+            }
+            .answer-btn.wrong {
+                background-color: #3a1a1a;
+                border-color: #6a2d2d;
+            }
+            .answer-btn.wrong .answer-label {
+                background-color: #421e1e;
+                color: #ad5a5a;
+                border-right-color: #6a2d2d;
+            }
+            .answer-btn.wrong .answer-text {
+                color: #d67d7d;
+            }
+            .quiz-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .btn-end {
+                background: none;
+                border: 1px solid #444;
+                color: #666;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.8rem;
+                padding: 6px 14px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .btn-end:hover {
+                background-color: #333;
+                color: #999;
+            }
+            .score-display {
+                color: #444;
+                font-size: 0.78rem;
+            }
+            .stat {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+            }
+            .stat-val {
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+            .stat-lbl {
+                font-size: 0.72rem;
+                color: #555;
+            }
+            .btn-result {
+                background-color: #333;
+                border: 1px solid #444;
+                color: #c4c4c4;
+                font-family: "Google Sans", sans-serif;
+                font-size: 0.85rem;
+                padding: 9px 22px;
+                border-radius: 6px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+            }
+            .btn-result:hover {
+                background-color: #3d3d3d;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <section class="header-section">
+                <div class="header-subsection">
+                    <a href="index.html">Szkoła Quizy</a>
+                    <a href="">Egzaminy Praktyczne</a>
+                    <a href="">Egzaminy Teoretyczne</a>
+                </div>
+            </section>
+        </header>
+        <div class="quiz-wrapper">
+            <div class="quiz-box">
+                <div
+                    id="quizView"
+                    style="display: flex; flex-direction: column; flex: 1"
+                >
+                    <div class="quiz-title">
+                        Historia – Ład Wersalski i ZSRS
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div
+                            class="progress-bar-fill"
+                            id="progressFill"
+                            style="width: 0%"
+                        ></div>
+                    </div>
+                    <div class="question-number" id="questionNumber">
+                        1 / 25
+                    </div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="answers" id="answersContainer"></div>
+                    <div class="quiz-bottom">
+                        <button class="btn-end" id="btnEnd">Zakończ</button>
+                        <div class="score-display" id="scoreDisplay">
+                            0% poprawnych
+                        </div>
+                    </div>
+                </div>
+                <div
+                    id="resultsView"
+                    style="
+                        display: none;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        flex: 1;
+                        text-align: center;
+                        gap: 10px;
+                    "
+                >
+                    <div
+                        style="
+                            color: #c4c4c4;
+                            font-size: 2.8rem;
+                            font-weight: 700;
+                        "
+                        id="resultPct"
+                    >
+                        0%
+                    </div>
+                    <div
+                        style="
+                            color: #666;
+                            font-size: 0.85rem;
+                            margin-bottom: 8px;
+                        "
+                    >
+                        poprawnych odpowiedzi
+                    </div>
+                    <div style="display: flex; gap: 32px; margin: 8px 0 16px">
+                        <div class="stat">
+                            <span
+                                class="stat-val"
+                                style="color: #5aad5a"
+                                id="rCorrect"
+                                >0</span
+                            >
+                            <span class="stat-lbl">poprawne</span>
+                        </div>
+                        <div class="stat">
+                            <span
+                                class="stat-val"
+                                style="color: #ad5a5a"
+                                id="rWrong"
+                                >0</span
+                            >
+                            <span class="stat-lbl">niepoprawne</span>
+                        </div>
+                        <div class="stat" id="skipStat">
+                            <span
+                                class="stat-val"
+                                style="color: #555"
+                                id="rSkip"
+                                >0</span
+                            >
+                            <span class="stat-lbl">niezaznaczone</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px">
+                        <a href="index.html" class="btn-result"
+                            >Wróć do głównej</a
+                        >
+                        <button class="btn-result" onclick="location.reload()">
+                            Powtórz quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var Q = [
+                {
+                    q: "Kiedy podpisano traktat wersalski określający warunki pokoju z Niemcami po I wojnie światowej?",
+                    a: [
+                        "28 czerwca 1919 r.",
+                        "11 listopada 1918 r.",
+                        "10 września 1919 r.",
+                        "24 lipca 1923 r.",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Jakie tereny Niemcy utraciły na rzecz Polski na mocy traktatu wersalskiego?",
+                    a: [
+                        "Wielkopolskę i Pomorze Gdańskie",
+                        "Alzację i wschodnią Lotaryngię",
+                        "Śląsk Opolski i Warmię",
+                        "Zaolzie i Spisz",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Z którym państwem zawarto w 1920 r. traktat w Trianon, na mocy którego państwo to straciło ok. 2/3 swojego przedwojennego terytorium?",
+                    a: ["Z Austrią", "Z Węgrami", "Z Bułgarią", "Z Turcją"],
+                    c: 1,
+                },
+                {
+                    q: "Kto po I wojnie obalił sułtana, obronił część ziem tureckich przed Grekami i został pierwszym prezydentem Republiki Turcji, zyskując przydomek Atatürk?",
+                    a: [
+                        "Enver Pasza",
+                        "Mustafa Kemal Pasza",
+                        "Aristide Briand",
+                        "Richard Coudenhove-Kalergi",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jakie wydarzenie z lat 1915–1917 w imperium osmańskim jest uznawane za pierwsze ludobójstwo XX wieku?",
+                    a: [
+                        "Rzeź Kurdów",
+                        "Prześladowania Greków w Azji Mniejszej",
+                        "Rzeź Ormian",
+                        "Masakra w Wersalu",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Jak nazywała się organizacja międzynarodowa powołana w Genewie po I wojnie światowej, mająca zapobiegać konfliktom i strzec pokoju?",
+                    a: [
+                        "Organizacja Narodów Zjednoczonych",
+                        "Liga Narodów",
+                        "Komintern",
+                        "Rada Bezpieczeństwa",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Dlaczego wpływ Ligi Narodów na sytuację światową szybko okazał się znikomy?",
+                    a: [
+                        "Ponieważ nie posiadała żadnego budżetu",
+                        "Gdyż zrzeszała wyłącznie państwa europejskie",
+                        "Bo Stany Zjednoczone ostatecznie do niej nie przystąpiły",
+                        "Bo została rozwiązana tuż po podpisaniu traktatu wersalskiego",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Czego dotyczył tzw. mały traktat wersalski narzucony nowym państwom (m.in. Polsce)?",
+                    a: [
+                        "Obowiązku wypłacania reparacji wojennych przez 50 lat",
+                        "Gwarancji poszanowania i ochrony praw mniejszości narodowych",
+                        "Zgody na budowę sowieckich baz wojskowych",
+                        "Całkowitej demilitaryzacji państwa",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "W którym roku komuniści oficjalnie ogłosili utworzenie Związku Socjalistycznych Republik Sowieckich (ZSRS)?",
+                    a: ["1917 r.", "1919 r.", "1922 r.", "1924 r."],
+                    c: 2,
+                },
+                {
+                    q: "Jaką politykę gospodarczą wprowadził Lenin w 1921 r. (NEP), aby ratować zrujnowaną rosyjską gospodarkę?",
+                    a: [
+                        "Pełny komunizm wojenny",
+                        "Centralne planowanie i rekwizycje",
+                        "Nową Politykę Ekonomiczną, dopuszczającą pewną wolność handlu i prywatne firmy",
+                        "Całkowitą prywatyzację ciężkiego przemysłu",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Czym była zapoczątkowana przez Stalina kolektywizacja rolnictwa?",
+                    a: [
+                        "Rozdaniem państwowej ziemi drobnym rolnikom",
+                        "Przymusowym łączeniem prywatnych gospodarstw chłopskich w wielkie państwowe kołchozy i sowchozy",
+                        "Wprowadzeniem darmowych nawozów sztucznych z importu",
+                        "Utworzeniem giełdy płodów rolnych w Moskwie",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Co było bezpośrednim skutkiem przymusowej kolektywizacji i rekwizycji zboża na Ukrainie w latach 1932-1933?",
+                    a: [
+                        "Niespotykany dobrobyt chłopów",
+                        "Sztucznie wywołany Wielki Głód, który pochłonął miliony ofiar",
+                        "Bunt armii i obalenie rządów komunistycznych w Kijowie",
+                        "Masowa imigracja robotników z zachodu",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jak nazywano system łagrów – sowieckich obozów pracy przymusowej i koncentracyjnych?",
+                    a: ["Kołchozy", "Gułag", "Sowchozy", "Komintern"],
+                    c: 1,
+                },
+                {
+                    q: "Kto stał się niekwestionowanym przywódcą ZSRS po śmierci Lenina w 1924 roku, eliminując powoli swoich politycznych rywali?",
+                    a: [
+                        "Lew Trocki",
+                        "Józef Stalin",
+                        "Grigorij Zinowiew",
+                        "Nikołaj Jeżow",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jak komuniści nazywali przyspieszoną i przymusową rozbudowę przemysłu ciężkiego opartą na planach pięcioletnich?",
+                    a: [
+                        "Kolektywizacja",
+                        "NEP",
+                        "Industrializacja",
+                        "Gospodarka rynkowa",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Czym charakteryzował się wprowadzany w ZSRS 'kult jednostki'?",
+                    a: [
+                        "Oddawaniem boskiej czci Leninowi, a następnie Stalinowi jako genialnym ojcom narodu",
+                        "Zrównaniem praw wszystkich obywateli",
+                        "Wolnością wyznania i religii",
+                        "Zniesieniem klas społecznych i brakiem lidera państwowego",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Co stało się z Lwem Trockim, jednym z głównych twórców rewolucji i rywalem Stalina?",
+                    a: [
+                        "Został naturalnym następcą Stalina po jego śmierci",
+                        "Przeszedł na stronę Niemiec podczas wojny",
+                        "Został skazany na wygnanie, a w 1940 r. zamordowany przez sowieckiego agenta w Meksyku",
+                        "Spędził resztę życia jako minister obrony w ZSRS",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "Czym był powołany w Moskwie w 1919 r. Komintern (Międzynarodówka Komunistyczna)?",
+                    a: [
+                        "Międzynarodową unią celną zrzeszającą kraje Europy Wschodniej",
+                        "Organizacją koordynującą partie komunistyczne na świecie w celu wzniecenia globalnej rewolucji",
+                        "Tajną policją zwalczającą spiski antysowieckie",
+                        "Stowarzyszeniem artystów i pisarzy sowieckich",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Z jakim dawnym wrogiem Rosja Sowiecka podpisała w 1922 r. traktat w Rapallo, łamiąc izolację polityczną i rozpoczynając tajną współpracę militarną?",
+                    a: [
+                        "Z Francją",
+                        "Z Wielką Brytanią",
+                        "Z Niemcami (Republiką Weimarską)",
+                        "Ze Stanami Zjednoczonymi",
+                    ],
+                    c: 2,
+                },
+                {
+                    q: "W czasie tzw. stalinowskich czystek w latach 1937–1938, w ramach których 'operacji narodowościowej' rozstrzelano ponad 110 tys. ofiar podejrzanych m.in. o szpiegostwo?",
+                    a: [
+                        "W operacji żydowskiej",
+                        "W operacji polskiej NKWD",
+                        "W operacji ukraińskiej",
+                        "W operacji bałtyckiej",
+                    ],
+                    c: 1,
+                },
+                {
+                    q: "Jaki był cel idei 'Paneuropy' promowanej w okresie międzywojennym m.in. przez Richarda Coudenhove-Kalergi?",
+                    a: [
+                        "Utworzenie Stanów Zjednoczonych Europy i wspólnej waluty, by uniknąć wojen",
+                        "Zbudowanie muru odgradzającego Europę od ZSRS",
+                        "Oddanie pełnej władzy nad Europą Lidze Narodów",
+                        "Powrót do potęgi monarchii z czasów sprzed I wojny światowej",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Który niemiecki obszar w pobliżu granic z Francją i Belgią miał zostać, na mocy traktatu wersalskiego, zdemilitaryzowany?",
+                    a: ["Bawaria", "Prusy Wschodnie", "Nadrenia", "Saksonia"],
+                    c: 2,
+                },
+                {
+                    q: "Które z wymienionych państw jako JEDYNE NIE powstało/odrodziło się z rozpadu wielkich imperiów zaraz po I wojnie światowej?",
+                    a: ["Czechosłowacja", "Polska", "Jugosławia", "Hiszpania"],
+                    c: 3,
+                },
+                {
+                    q: "Gdzie w 1936-1939 r. państwa totalitarne (ZSRS i III Rzesza) wspierały walczące ze sobą frakcje polityczne traktując ten konflikt jako 'poligon doświadczalny'?",
+                    a: [
+                        "W wojnie domowej w Hiszpanii",
+                        "W czasie podboju Etiopii",
+                        "Podczas wojny polsko-bolszewickiej",
+                        "W trakcie puczu w Monachium",
+                    ],
+                    c: 0,
+                },
+                {
+                    q: "Która instytucja nadzorowała aparat terroru i egzekucje na domniemanych 'wrogach ludu' w ZSRS w czasach Wielkiej Czystki (pod wodzą m.in. N. Jeżowa)?",
+                    a: [
+                        "Armia Czerwona",
+                        "Komintern",
+                        "NKWD",
+                        "Zgromadzenie Ogólne ONZ",
+                    ],
+                    c: 2,
+                },
+            ];
+
+            var current = 0,
+                correct = 0,
+                wrong = 0,
+                answered = 0,
+                locked = false,
+                total = Q.length;
+            var LABELS = ["A", "B", "C", "D"];
+
+            function shuffle(arr) {
+                var a = arr.slice();
+                for (var i = a.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var t = a[i];
+                    a[i] = a[j];
+                    a[j] = t;
+                }
+                return a;
+            }
+
+            var questions = shuffle(Q);
+
+            function updateScore() {
+                var pct =
+                    answered === 0 ? 0 : Math.round((correct / answered) * 100);
+                document.getElementById("scoreDisplay").textContent =
+                    pct + "% poprawnych";
+            }
+
+            function renderQuestion() {
+                locked = false;
+                var q = questions[current];
+                document.getElementById("questionNumber").textContent =
+                    current + 1 + " / " + total;
+                document.getElementById("questionText").textContent = q.q;
+                document.getElementById("progressFill").style.width =
+                    (current / total) * 100 + "%";
+
+                var container = document.getElementById("answersContainer");
+                container.innerHTML = "";
+                var order = shuffle([0, 1, 2, 3]);
+                var correctDisplay = 0;
+
+                for (var i = 0; i < 4; i++) {
+                    if (order[i] === q.c) {
+                        correctDisplay = i;
+                        break;
+                    }
+                }
+
+                for (var pos = 0; pos < 4; pos++) {
+                    var orig = order[pos];
+                    var btn = document.createElement("button");
+                    btn.className = "answer-btn";
+                    btn.dataset.pos = pos;
+                    btn.dataset.correct = correctDisplay;
+
+                    var lbl = document.createElement("span");
+                    lbl.className = "answer-label";
+                    lbl.textContent = LABELS[pos];
+
+                    var txt = document.createElement("span");
+                    txt.className = "answer-text";
+                    txt.textContent = q.a[orig];
+
+                    btn.appendChild(lbl);
+                    btn.appendChild(txt);
+                    btn.addEventListener("click", handleAnswer);
+                    container.appendChild(btn);
+                }
+                updateScore();
+            }
+
+            function handleAnswer(e) {
+                if (locked) return;
+                locked = true;
+                answered++;
+                var btn = e.currentTarget;
+                var chosen = parseInt(btn.dataset.pos);
+                var correctPos = parseInt(btn.dataset.correct);
+                var btns = document
+                    .getElementById("answersContainer")
+                    .querySelectorAll(".answer-btn");
+
+                if (chosen === correctPos) {
+                    correct++;
+                    btns[chosen].classList.add("correct");
+                } else {
+                    wrong++;
+                    btns[chosen].classList.add("wrong");
+                    btns[correctPos].classList.add("correct");
+                }
+
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                }
+
+                updateScore();
+                setTimeout(function () {
+                    current++;
+                    if (current >= total) {
+                        showResults(false);
+                    } else {
+                        renderQuestion();
+                    }
+                }, 1500);
+            }
+
+            function showResults(early) {
+                document.getElementById("progressFill").style.width = "100%";
+                document.getElementById("quizView").style.display = "none";
+                var rv = document.getElementById("resultsView");
+                rv.style.display = "flex";
+
+                var skipped = early ? total - answered : 0;
+                var base = early ? total : answered;
+                var pct = base === 0 ? 0 : Math.round((correct / base) * 100);
+
+                document.getElementById("resultPct").textContent = pct + "%";
+                document.getElementById("rCorrect").textContent = correct;
+                document.getElementById("rWrong").textContent = wrong;
+                document.getElementById("rSkip").textContent = skipped;
+
+                if (!early) {
+                    document.getElementById("skipStat").style.display = "none";
+                }
+            }
+
+            document
+                .getElementById("btnEnd")
+                .addEventListener("click", function () {
+                    showResults(true);
+                });
+
+            renderQuestion();
+        </script>
+    </body>
+</html>
