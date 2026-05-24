@@ -1,250 +1,186 @@
 <!doctype html>
 <html lang="pl">
-    <head>
-        <meta charset="utf-8" />
-        <title>Relative Clauses – Nauka</title>
+<head>
+    <meta charset="utf-8">
+    <title>Relative Clauses – Nauka</title>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="style_nauka.css">
-    </head>
-    <body>
-        <header>
-            <section class="header-section">
-                <div class="header-subsection">
-                    <a href="#">Angielski</a>
-                    <a href="#">Relative Clauses</a>
-                    <a href="#">Kartkówka</a>
-                </div>
-            </section>
-        </header>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
-        <div class="quiz-wrapper">
-            <div class="quiz-box">
-                <div class="quiz-title">Relative Clauses – Nauka</div>
+    <link rel="stylesheet" href="style_nauka.css">
+</head>
+<body>
 
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill" id="progressFill"></div>
-                </div>
+<header>
+    <section class="header-section">
+        <div class="header-subsection">
+            <a href="index.html">Angielski</a>
+            <a href="#">Relative Clauses</a>
+            <a href="#">Kartkówka</a>
+        </div>
+    </section>
+</header>
 
-                <div class="question-number" id="questionNumber"></div>
+<div class="quiz-wrapper">
+    <div class="quiz-box">
 
-                <div class="question-text" id="questionText"></div>
-
-                <div class="answer-static" id="answerText"></div>
-
-                <div class="quiz-bottom">
-                    <button class="btn" id="prevBtn">Poprzednie</button>
-                    <button class="btn" id="nextBtn">Następne</button>
-                </div>
-            </div>
+        <div class="quiz-title">
+            Relative Clauses – Nauka
         </div>
 
-        <script>
-            const Q = [
-                {
-                    q: "Kiedy używamy DEFINING RELATIVE CLAUSES?",
-                    a: `Używamy ich do podania informacji koniecznej do zrozumienia zdania.
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
 
-Przykład:
-The boy who lives next door is my friend.
+        <div class="question-number" id="questionNumber"></div>
 
-(który chłopak? ten mieszkający obok)`,
-                },
+        <div class="question-text" id="questionText"></div>
 
-                {
-                    q: "Jakich zaimków używamy w defining relative clauses?",
-                    a: `WHO → ludzie
-WHICH → rzeczy i zwierzęta
-THAT → ludzie + rzeczy
-WHERE → miejsca
-WHOSE → przynależność`,
-                },
+        <div class="answer-static" id="answerText"></div>
 
-                {
-                    q: "Kiedy używamy WHO?",
-                    a: `WHO używamy do ludzi.
+        <div class="quiz-bottom">
+            <button class="btn" id="prevBtn">Poprzednie</button>
 
-Przykład:
-The girl who called you is my sister.`,
-                },
+            <button class="btn" id="nextBtn">Następne</button>
+        </div>
 
-                {
-                    q: "Kiedy używamy WHICH?",
-                    a: `WHICH używamy do rzeczy i zwierząt.
+    </div>
+</div>
 
-Przykład:
-The phone which I bought is expensive.`,
-                },
+<script>
 
-                {
-                    q: "Kiedy używamy THAT?",
-                    a: `THAT może zastąpić WHO i WHICH w defining clauses.
+const Q = [
 
-Przykład:
-The car that I drive is very fast.`,
-                },
+{
+    q: "Kiedy używamy defining relative clauses?",
+    a: "Używamy ich do podania informacji koniecznej do zrozumienia zdania.\\n\\nExample:\\nThe boy who lives next door is my friend."
+},
 
-                {
-                    q: "Kiedy używamy WHERE?",
-                    a: `WHERE używamy do miejsc.
+{
+    q: "Jakich zaimków używamy w defining relative clauses?",
+    a: "WHO → ludzie\\nWHICH → rzeczy i zwierzęta\\nTHAT → ludzie i rzeczy\\nWHERE → miejsca\\nWHOSE → przynależność"
+},
 
-Przykład:
-This is the school where I study.`,
-                },
+{
+    q: "Kiedy używamy WHO?",
+    a: "WHO używamy do ludzi.\\n\\nExample:\\nThe girl who called you is my sister."
+},
 
-                {
-                    q: "Kiedy używamy WHOSE?",
-                    a: `WHOSE pokazuje przynależność.
+{
+    q: "Kiedy używamy WHICH?",
+    a: "WHICH używamy do rzeczy i zwierząt.\\n\\nExample:\\nThe phone which I bought is expensive."
+},
 
-Przykład:
-The boy whose bike was stolen is sad.`,
-                },
+{
+    q: "Kiedy używamy THAT?",
+    a: "THAT może zastąpić WHO i WHICH w defining clauses.\\n\\nExample:\\nThe car that I drive is very fast."
+},
 
-                {
-                    q: "Kiedy można pominąć who / which / that?",
-                    a: `Można je pominąć, gdy NIE są podmiotem zdania.
+{
+    q: "Kiedy używamy WHERE?",
+    a: "WHERE używamy do miejsc.\\n\\nExample:\\nThis is the school where I study."
+},
 
-✔ I know the girl who you met.
-✔ I know the girl you met.
+{
+    q: "Kiedy używamy WHOSE?",
+    a: "WHOSE pokazuje przynależność.\\n\\nExample:\\nThe boy whose bike was stolen is sad."
+},
 
-❌ The girl lives here.
-❌ The girl who lives here. (tu nie można usunąć WHO)`,
-                },
+{
+    q: "Kiedy można pominąć who / which / that?",
+    a: "Można je pominąć, gdy NIE są podmiotem zdania.\\n\\n✔ I know the girl who you met.\\n✔ I know the girl you met."
+},
 
-                {
-                    q: "Czym są NON-DEFINING RELATIVE CLAUSES?",
-                    a: `Dodają dodatkową informację.
+{
+    q: "Czym są non-defining relative clauses?",
+    a: "Dodają dodatkową informację.\\nOddzielamy je przecinkami.\\n\\nExample:\\nMy brother, who lives in London, is a doctor."
+},
 
-Oddzielamy je przecinkami.
+{
+    q: "Jakich zaimków używamy w non-defining clauses?",
+    a: "WHO\\nWHICH\\nWHERE\\nWHOSE\\n\\n❌ NIE używamy THAT"
+},
 
-Przykład:
-My brother, who lives in London, is a doctor.
+{
+    q: "Dlaczego w non-defining clauses nie używamy THAT?",
+    a: "Bo THAT jest tam niepoprawne gramatycznie.\\n\\n✔ My car, which is very old, still works.\\n❌ My car, that is very old, still works."
+},
 
-Bez tej części zdanie nadal ma sens.`,
-                },
+{
+    q: "Czy można usuwać zaimki w non-defining clauses?",
+    a: "Nie.\\n\\n✔ My uncle, who lives in Paris, is rich.\\n❌ My uncle, lives in Paris, is rich."
+},
 
-                {
-                    q: "Jakie zaimki używamy w non-defining clauses?",
-                    a: `WHO
-WHICH
-WHERE
-WHOSE
+{
+    q: "Jaka jest różnica między defining i non-defining clauses?",
+    a: "DEFINING → informacja konieczna, bez przecinków.\\n\\nNON-DEFINING → informacja dodatkowa, z przecinkami."
+},
 
-❌ NIE używamy THAT`,
-                },
+{
+    q: "Przykład defining relative clause",
+    a: "Students who study regularly get good grades."
+},
 
-                {
-                    q: "Dlaczego w non-defining clauses nie używamy THAT?",
-                    a: `Bo w zdaniach niedefiniujących THAT jest niepoprawne gramatycznie.
+{
+    q: "Przykład non-defining relative clause",
+    a: "Tom, who studies regularly, gets good grades."
+},
 
-✔ My car, which is very old, still works.
-❌ My car, that is very old, still works.`,
-                },
+{
+    q: "Jak wygląda relative clause z WHERE?",
+    a: "This is the restaurant where we ate dinner.\\n\\nMożna też:\\nThis is the restaurant in which we ate dinner."
+},
 
-                {
-                    q: "Czy można usuwać zaimki w non-defining clauses?",
-                    a: `Nie.
+{
+    q: "Jak wygląda relative clause z WHOSE?",
+    a: "The woman whose dog is barking is angry."
+},
 
-Zaimków NIE usuwamy.
+{
+    q: "Najważniejsze zasady na kartkówkę",
+    a: "✔ WHO → ludzie\\n✔ WHICH → rzeczy\\n✔ THAT → ludzie i rzeczy (tylko defining)\\n✔ WHERE → miejsca\\n✔ WHOSE → przynależność\\n\\n✔ defining = bez przecinków\\n✔ non-defining = przecinki\\n\\n✔ w non-defining NIE używamy THAT"
+}
 
-✔ My uncle, who lives in Paris, is rich.
-❌ My uncle, lives in Paris, is rich.`,
-                },
+];
 
-                {
-                    q: "Jaka jest różnica między defining i non-defining clauses?",
-                    a: `DEFINING:
-informacja konieczna
-bez przecinków
+let current = 0;
 
-NON-DEFINING:
-informacja dodatkowa
-z przecinkami`,
-                },
+function render() {
 
-                {
-                    q: "Przykład defining relative clause",
-                    a: `Students who study regularly get good grades.
+    const q = Q[current];
 
-(Tylko ci uczniowie którzy się uczą regularnie)`,
-                },
+    document.getElementById("questionNumber").textContent =
+        `${current + 1} / ${Q.length}`;
 
-                {
-                    q: "Przykład non-defining relative clause",
-                    a: `Tom, who studies regularly, gets good grades.
+    document.getElementById("questionText").textContent = q.q;
 
-(Dodatkowa informacja o Tomie)`,
-                },
+    document.getElementById("answerText").textContent = q.a;
 
-                {
-                    q: "Jak wygląda relative clause z WHERE?",
-                    a: `This is the restaurant where we ate dinner.
+    document.getElementById("progressFill").style.width =
+        ((current + 1) / Q.length) * 100 + "%";
+}
 
-Można też:
-This is the restaurant in which we ate dinner.`,
-                },
+document.getElementById("nextBtn").onclick = () => {
 
-                {
-                    q: "Jak wygląda relative clause z WHOSE?",
-                    a: `The woman whose dog is barking is angry.
+    if (current < Q.length - 1) {
+        current++;
+        render();
+    }
+};
 
-(czyj pies? jej pies)`,
-                },
+document.getElementById("prevBtn").onclick = () => {
 
-                {
-                    q: "Najważniejsze zasady na kartkówkę",
-                    a: `✔ WHO → ludzie
-✔ WHICH → rzeczy
-✔ THAT → ludzie i rzeczy (tylko defining)
-✔ WHERE → miejsca
-✔ WHOSE → przynależność
+    if (current > 0) {
+        current--;
+        render();
+    }
+};
 
-✔ defining = bez przecinków
-✔ non-defining = przecinki
+render();
 
-✔ w non-defining NIE używamy THAT
+</script>
 
-✔ czasem można usunąć who/which/that`,
-                },
-            ];
-
-            let current = 0;
-
-            function render() {
-                const q = Q[current];
-
-                document.getElementById("questionNumber").textContent =
-                    `${current + 1} / ${Q.length}`;
-
-                document.getElementById("questionText").textContent = q.q;
-
-                document.getElementById("answerText").textContent = q.a;
-
-                document.getElementById("progressFill").style.width =
-                    ((current + 1) / Q.length) * 100 + "%";
-            }
-
-            document.getElementById("nextBtn").onclick = () => {
-                if (current < Q.length - 1) {
-                    current++;
-                    render();
-                }
-            };
-
-            document.getElementById("prevBtn").onclick = () => {
-                if (current > 0) {
-                    current--;
-                    render();
-                }
-            };
-
-            render();
-        </script>
-    </body>
+</body>
 </html>
