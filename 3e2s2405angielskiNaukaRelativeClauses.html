@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <title>Relative Clauses – Nauka</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Google Sans", sans-serif;
+                background: #f3f4f6;
+                color: #111827;
+            }
+
+            header {
+                background: #7f1d1d;
+                padding: 18px 40px;
+            }
+
+            .header-section {
+                max-width: 1200px;
+                margin: auto;
+            }
+
+            .header-subsection {
+                display: flex;
+                gap: 30px;
+            }
+
+            .header-subsection a {
+                color: white;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            .quiz-wrapper {
+                min-height: calc(100vh - 80px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 40px 20px;
+            }
+
+            .quiz-box {
+                width: 100%;
+                max-width: 900px;
+                background: white;
+                border-radius: 18px;
+                padding: 40px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+
+            .quiz-title {
+                font-size: 34px;
+                font-weight: 700;
+                margin-bottom: 25px;
+                color: #7f1d1d;
+            }
+
+            .progress-bar-bg {
+                width: 100%;
+                height: 14px;
+                background: #e5e7eb;
+                border-radius: 999px;
+                overflow: hidden;
+                margin-bottom: 25px;
+            }
+
+            .progress-bar-fill {
+                height: 100%;
+                width: 0%;
+                background: #991b1b;
+                transition: 0.3s;
+            }
+
+            .question-number {
+                font-size: 15px;
+                color: #6b7280;
+                margin-bottom: 20px;
+            }
+
+            .question-text {
+                font-size: 28px;
+                line-height: 1.5;
+                font-weight: 700;
+                margin-bottom: 35px;
+            }
+
+            .answer-static {
+                background: #f9fafb;
+                border-left: 6px solid #991b1b;
+                padding: 22px;
+                border-radius: 12px;
+                font-size: 22px;
+                line-height: 1.6;
+                white-space: pre-line;
+                margin-bottom: 35px;
+            }
+
+            .quiz-bottom {
+                display: flex;
+                justify-content: space-between;
+                gap: 20px;
+            }
+
+            .btn {
+                border: none;
+                background: #991b1b;
+                color: white;
+                padding: 14px 26px;
+                border-radius: 12px;
+                font-size: 17px;
+                cursor: pointer;
+                transition: 0.2s;
+                font-weight: 700;
+            }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                background: #7f1d1d;
+            }
+
+            @media (max-width: 700px) {
+                .quiz-box {
+                    padding: 25px;
+                }
+
+                .question-text {
+                    font-size: 22px;
+                }
+
+                .answer-static {
+                    font-size: 18px;
+                }
+
+                .quiz-bottom {
+                    flex-direction: column;
+                }
+
+                .btn {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <section class="header-section">
+                <div class="header-subsection">
+                    <a href="#">Angielski</a>
+                    <a href="#">Relative Clauses</a>
+                    <a href="#">Kartkówka</a>
+                </div>
+            </section>
+        </header>
+
+        <div class="quiz-wrapper">
+            <div class="quiz-box">
+                <div class="quiz-title">Relative Clauses – Nauka</div>
+
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+
+                <div class="question-number" id="questionNumber"></div>
+
+                <div class="question-text" id="questionText"></div>
+
+                <div class="answer-static" id="answerText"></div>
+
+                <div class="quiz-bottom">
+                    <button class="btn" id="prevBtn">Poprzednie</button>
+                    <button class="btn" id="nextBtn">Następne</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const Q = [
+                {
+                    q: "Kiedy używamy DEFINING RELATIVE CLAUSES?",
+                    a: `Używamy ich do podania informacji koniecznej do zrozumienia zdania.
+
+Przykład:
+The boy who lives next door is my friend.
+
+(który chłopak? ten mieszkający obok)`,
+                },
+
+                {
+                    q: "Jakich zaimków używamy w defining relative clauses?",
+                    a: `WHO → ludzie
+WHICH → rzeczy i zwierzęta
+THAT → ludzie + rzeczy
+WHERE → miejsca
+WHOSE → przynależność`,
+                },
+
+                {
+                    q: "Kiedy używamy WHO?",
+                    a: `WHO używamy do ludzi.
+
+Przykład:
+The girl who called you is my sister.`,
+                },
+
+                {
+                    q: "Kiedy używamy WHICH?",
+                    a: `WHICH używamy do rzeczy i zwierząt.
+
+Przykład:
+The phone which I bought is expensive.`,
+                },
+
+                {
+                    q: "Kiedy używamy THAT?",
+                    a: `THAT może zastąpić WHO i WHICH w defining clauses.
+
+Przykład:
+The car that I drive is very fast.`,
+                },
+
+                {
+                    q: "Kiedy używamy WHERE?",
+                    a: `WHERE używamy do miejsc.
+
+Przykład:
+This is the school where I study.`,
+                },
+
+                {
+                    q: "Kiedy używamy WHOSE?",
+                    a: `WHOSE pokazuje przynależność.
+
+Przykład:
+The boy whose bike was stolen is sad.`,
+                },
+
+                {
+                    q: "Kiedy można pominąć who / which / that?",
+                    a: `Można je pominąć, gdy NIE są podmiotem zdania.
+
+✔ I know the girl who you met.
+✔ I know the girl you met.
+
+❌ The girl lives here.
+❌ The girl who lives here. (tu nie można usunąć WHO)`,
+                },
+
+                {
+                    q: "Czym są NON-DEFINING RELATIVE CLAUSES?",
+                    a: `Dodają dodatkową informację.
+
+Oddzielamy je przecinkami.
+
+Przykład:
+My brother, who lives in London, is a doctor.
+
+Bez tej części zdanie nadal ma sens.`,
+                },
+
+                {
+                    q: "Jakie zaimki używamy w non-defining clauses?",
+                    a: `WHO
+WHICH
+WHERE
+WHOSE
+
+❌ NIE używamy THAT`,
+                },
+
+                {
+                    q: "Dlaczego w non-defining clauses nie używamy THAT?",
+                    a: `Bo w zdaniach niedefiniujących THAT jest niepoprawne gramatycznie.
+
+✔ My car, which is very old, still works.
+❌ My car, that is very old, still works.`,
+                },
+
+                {
+                    q: "Czy można usuwać zaimki w non-defining clauses?",
+                    a: `Nie.
+
+Zaimków NIE usuwamy.
+
+✔ My uncle, who lives in Paris, is rich.
+❌ My uncle, lives in Paris, is rich.`,
+                },
+
+                {
+                    q: "Jaka jest różnica między defining i non-defining clauses?",
+                    a: `DEFINING:
+informacja konieczna
+bez przecinków
+
+NON-DEFINING:
+informacja dodatkowa
+z przecinkami`,
+                },
+
+                {
+                    q: "Przykład defining relative clause",
+                    a: `Students who study regularly get good grades.
+
+(Tylko ci uczniowie którzy się uczą regularnie)`,
+                },
+
+                {
+                    q: "Przykład non-defining relative clause",
+                    a: `Tom, who studies regularly, gets good grades.
+
+(Dodatkowa informacja o Tomie)`,
+                },
+
+                {
+                    q: "Jak wygląda relative clause z WHERE?",
+                    a: `This is the restaurant where we ate dinner.
+
+Można też:
+This is the restaurant in which we ate dinner.`,
+                },
+
+                {
+                    q: "Jak wygląda relative clause z WHOSE?",
+                    a: `The woman whose dog is barking is angry.
+
+(czyj pies? jej pies)`,
+                },
+
+                {
+                    q: "Najważniejsze zasady na kartkówkę",
+                    a: `✔ WHO → ludzie
+✔ WHICH → rzeczy
+✔ THAT → ludzie i rzeczy (tylko defining)
+✔ WHERE → miejsca
+✔ WHOSE → przynależność
+
+✔ defining = bez przecinków
+✔ non-defining = przecinki
+
+✔ w non-defining NIE używamy THAT
+
+✔ czasem można usunąć who/which/that`,
+                },
+            ];
+
+            let current = 0;
+
+            function render() {
+                const q = Q[current];
+
+                document.getElementById("questionNumber").textContent =
+                    `${current + 1} / ${Q.length}`;
+
+                document.getElementById("questionText").textContent = q.q;
+
+                document.getElementById("answerText").textContent = q.a;
+
+                document.getElementById("progressFill").style.width =
+                    ((current + 1) / Q.length) * 100 + "%";
+            }
+
+            document.getElementById("nextBtn").onclick = () => {
+                if (current < Q.length - 1) {
+                    current++;
+                    render();
+                }
+            };
+
+            document.getElementById("prevBtn").onclick = () => {
+                if (current > 0) {
+                    current--;
+                    render();
+                }
+            };
+
+            render();
+        </script>
+    </body>
+</html>
